@@ -17,7 +17,7 @@ Codex Dump is a Laravel package designed to consolidate and export your project'
 Install using Composer:
 
 ```bash
-composer require mapali/codex-dump
+composer require mapali/codex-dump --dev
 ```
 
 Publish the configuration (optional):
