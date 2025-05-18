@@ -1,73 +1,45 @@
-# CodexDump
+# Codex Dump for Laravel
 
-Exports all PHP files in a Laravel project into a single text file for AI ingestion, search, or analysis.
+Codex Dump is a Laravel package designed to consolidate and export your project's PHP source files into a single structured text file. This streamlined output serves as optimized context input for AI-driven code assistance tools like ChatGPT, Codex, or similar systems.
+
+## Features
+
+- **Selective Export:** Define directories and file types to include or exclude.
+- **Token Management:** Prevents exceeding AI token limits by providing token estimations and configurable maximum limits.
+- **Persistent History:** Remembers previously used directories and file paths for rapid reuse.
+- **Interactive CLI:** Offers intuitive prompts for quick and accurate configuration.
+- **Automatic File Structure:** Clearly documents the exported file structure for easy AI interpretation.
 
 ---
 
 ## Installation
 
-```bash
-composer require mapali/codex-dump --dev
-```
-
----
-
-## Usage
-
-Run the artisan command and follow the prompts:
+Install using Composer:
 
 ```bash
-php artisan codex:dump
+composer require mapali/codex-dump
 ```
 
-You will be prompted to:
+Publish the configuration (optional):
 
-- **Enter base directory to scan:**  
-  The root folder you want to export files from (default: your Laravel project root).
-
-- **Enter output file path (relative or absolute):**  
-  Where the combined export will be written (default: `codex_dump.txt` in your project root).
-
-When finished, you’ll see an "Export complete" message with the output path.
-
----
-
-## Output Format
-
-The export file contains all matched files in the following format:
-
-```
->>> path/to/File.php
-<?php
-
-// File contents...
-
->>> path/to/AnotherFile.php
-<?php
-
-// File contents...
+```bash
+php artisan vendor:publish --provider="Mapali\CodexDump\CodexDumpServiceProvider" --tag="config"
 ```
 
 ---
 
 ## Configuration
 
-Publish the config file to customize ignored directories, file extensions, or token limits:
-
-```bash
-php artisan vendor:publish --tag=config
-```
-
-This creates `config/codex-dump.php`:
+By default, the package exports all `.php` files, excluding commonly ignored directories (`vendor`, `node_modules`, `.git`, `storage`). Customize these options via `config/codex-dump.php`:
 
 ```php
 return [
-    'ignore_dirs' => [
-        'vendor',
-        'node_modules',
-        'storage',
-        '.git',
-    ],
+'ignore_dirs' => [
+'vendor',
+'node_modules',
+'storage',
+'.git',
+],
 
     'extensions' => [
         'php',
@@ -78,41 +50,83 @@ return [
 ];
 ```
 
-- **ignore_dirs:** Exclude these directories from export.
-- **extensions:** File extensions to include.
-- **default_output:** Default export file path.
-- **max_tokens:** Abort if estimated token count exceeds this value (approximate, 1 token ≈ 4 chars).
+- **`ignore_dirs`**: Directories to skip.
+- **`extensions`**: File extensions to include.
+- **`default_output`**: Default path for the exported text file.
+- **`max_tokens`**: Maximum allowed tokens to ensure compatibility with AI models.
+
+---
+
+## Usage
+
+To export your project's codebase, run:
+
+```bash
+php artisan codex:dump
+```
+
+You'll be interactively prompted for:
+
+- **Base directory:** Directory path to scan (default: current directory).
+- **Output file path:** Path for the resulting `.txt` file.
+
+The package will then:
+
+- Calculate the estimated token usage.
+- Validate against configured token limits.
+- Generate a neatly structured `.txt` file containing your project's files, clearly delineated for optimal AI ingestion.
+
+Example output structure:
+
+```
+>>> FILE TREE
+├── src/
+│   ├── Commands/
+│   │   └── DumpCodebaseCommand.php
+│   └── Support/
+│       └── CodexDumper.php
+
+>>> src/Commands/DumpCodebaseCommand.php
+<?php
+declare(strict_types=1);
+
+// [file contents here]
+
+>>> src/Support/CodexDumper.php
+<?php
+declare(strict_types=1);
+
+// [file contents here]
+```
+
+---
+
+## Recommended Use
+
+Codex Dump streamlines preparing codebases for AI-assisted development. It is ideal for:
+
+- Providing comprehensive context to AI coding assistants like ChatGPT.
+- Quick reference exports for structured AI interactions.
+- Facilitating efficient onboarding and understanding of large codebases.
 
 ---
 
 ## Testing
 
-If you contribute, run the test suite:
+The package includes comprehensive tests to ensure reliability:
 
 ```bash
-./vendor/bin/phpunit
+vendor/bin/phpunit
 ```
 
 ---
 
-## Requirements
+## Contributing
 
-- Laravel 9 or later (tested with Laravel 10+)
-- PHP 8.1 or later
+Contributions are welcome. Please submit pull requests or issues directly to the GitHub repository.
 
 ---
 
 ## License
 
-MIT
-
----
-
-## Author
-
-[Mapali / Matt Lickess](https://github.com/mattlickess)
-
----
-
-**CodexDump** streamlines codebase exports for LLMs and static analysis.  
-For issues or feature requests, submit on [GitHub](https://github.com/mapali/codex-dump).
+Codex Dump is released under the MIT License.
