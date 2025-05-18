@@ -34,12 +34,12 @@ By default, the package exports all `.php` files, excluding commonly ignored dir
 
 ```php
 return [
-'ignore_dirs' => [
-'vendor',
-'node_modules',
-'storage',
-'.git',
-],
+    'ignore_dirs' => [
+        'vendor',
+        'node_modules',
+        'storage',
+        '.git',
+    ],
 
     'extensions' => [
         'php',
