@@ -1,9 +1,14 @@
 {
     "name": "mapali/codex-dump",
-    "version": "0.0.1",
     "description": "Export all PHP files in a Laravel codebase into a single file for AI ingestion or analysis.",
     "type": "library",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Matt Lickess",
+            "email": "mattlickess@gmail.com"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Mapali\\CodexDump\\": "src/"
